@@ -1,17 +1,113 @@
 #include <gb/gb.h>
+#include <gb/font.h>
 #include <stdio.h>
-#include <string.h>
 #include "sprites.c"
 #include "backgrounds.c"
-#include <gb/font.h>
+#include "structs.c"
 
-UINT8 x, y;
+
+UINT8 x, y, a;
 UINT8 tocou = 1, tocou2 = 1;
 UINT8 sound_step = 0;
 UINT8 delay_counter = 0;
 UINT8 i = 0, j = 10, k = 10;
 
+struct MainCaracter bus;
+struct MainCaracter student;
+struct SecondaryCaracter car;
+struct SecondaryCaracter student2;
 
+void hide_all_sprites() {
+    for (a = 0; a < 40; a++) {
+        move_sprite(a, 0, 0);
+    }
+}
+
+void moveMainCaracter(struct MainCaracter *caracter, UINT8 x, UINT8 y){
+    move_sprite(caracter->spritids[0], x, y);
+    move_sprite(caracter->spritids[1], x + 8, y);
+    move_sprite(caracter->spritids[2], x, y + 8);
+    move_sprite(caracter->spritids[3], x + 8, y + 8);
+}
+
+void moveSecondaryCaracter(struct SecondaryCaracter *caracter, UINT8 x, UINT8 y){
+    move_sprite(caracter->spritids[0], x, y);
+    move_sprite(caracter->spritids[1], x + 8, y);
+    move_sprite(caracter->spritids[2], x, y + 8);
+    move_sprite(caracter->spritids[3], x + 8, y + 8);
+}
+
+void setupBus(){
+    bus.x = 20;
+    bus.y = 130;
+    bus.width = 16;
+    bus.height = 16;
+
+    set_sprite_tile(0, 0);
+    bus.spritids[0] = 0;
+    set_sprite_tile(1, 1);
+    bus.spritids[1] = 1;
+    set_sprite_tile(2, 2);
+    bus.spritids[2] = 2;
+    set_sprite_tile(3, 3);
+    bus.spritids[3] = 3;
+
+    moveMainCaracter(&bus, bus.x, bus.y);
+}
+
+void setupCar(){
+    car.x = 180;
+    car.y = 130;
+    car.width = 16;
+    car.height = 16;
+
+    set_sprite_tile(4, 4);
+    car.spritids[0] = 4;
+    set_sprite_tile(5, 5);
+    car.spritids[1] = 5;
+    set_sprite_tile(6, 6);
+    car.spritids[2] = 6;
+    set_sprite_tile(7, 7);
+    car.spritids[3] = 7;
+
+    moveSecondaryCaracter(&car, car.x, car.y);
+}
+
+void setupStudent(){
+    student.x = 20;
+    student.y = 130;
+    student.width = 16;
+    student.height = 16;
+
+    set_sprite_tile(0, 0);
+    student.spritids[0] = 0;
+    set_sprite_tile(1, 1);
+    student.spritids[1] = 1;
+    set_sprite_tile(2, 2);
+    student.spritids[2] = 2;
+    set_sprite_tile(3, 3);
+    student.spritids[3] = 3;
+
+    moveMainCaracter(&student, student.x, student.y);
+}
+
+void setupStudent2(){
+    student2.x = 180;
+    student2.y = 130;
+    student2.width = 16;
+    student2.height = 16;
+
+    set_sprite_tile(4, 4);
+    student2.spritids[0] = 4;
+    set_sprite_tile(5, 5);
+    student2.spritids[1] = 5;
+    set_sprite_tile(6, 6);
+    student2.spritids[2] = 6;
+    set_sprite_tile(7, 7);
+    student2.spritids[3] = 7;
+
+    moveSecondaryCaracter(&student2, student2.x, student2.y);
+}
 
 void performantdelay(UINT8 numloops)
 {
@@ -672,8 +768,14 @@ void fase1(){
     set_win_tiles(0, 0, 10, 1, timemap);
     move_win(80, -120);
 
-    SHOW_BKG;
+    set_sprite_data(0, 4, Bus_Sprite);
+    set_sprite_data(4, 4, Car_Sprite);
+    setupCar();
+    setupBus();
+
     SHOW_WIN;
+    SHOW_BKG;
+    SHOW_SPRITES;
     DISPLAY_ON;
 
     while(1){
@@ -687,9 +789,8 @@ void fase1(){
         if(tocou == 0){
             play1_second_part();
         }
-        
 
-        if(joypad()){
+        if(joypad() == J_START){
             NR10_REG = 0x00; //Muta
             NR11_REG = 0x00;
             NR12_REG = 0x00;
@@ -700,16 +801,40 @@ void fase1(){
             tocou = 1;
             break;
         }
+
+        switch(joypad()){
+            case J_UP:
+                bus.y -= 2;
+                moveMainCaracter(&bus, bus.x, bus.y);
+                break;
+            case J_DOWN:
+                bus.y += 2;
+                moveMainCaracter(&bus, bus.x, bus.y);
+                break;
+                
+        }
+        car.x -= 5;
+        if(car.x <= 0){
+            car.x = 180;
+            car.y = bus.y;
+        }
+        moveSecondaryCaracter(&car, car.x, car.y);
     }
 }
 
 void fase2(){
-
+    // hide_all_sprites();
     limpar_tela(0);
     set_bkg_data(97, 16, Fase2_Sprites);
     set_bkg_tiles(0, 0, 32, 18, Fase2_BackGround);
 
+    set_sprite_data(0, 4, Student_Sprite);
+    set_sprite_data(4, 4, Student2_Sprite);
+    setupStudent();
+    setupStudent2();
+
     SHOW_BKG;
+    SHOW_SPRITES;
     DISPLAY_ON;
 
     while(1){
@@ -732,15 +857,39 @@ void fase2(){
         if(tocou2 == 0){
             play2_fifth_part();
         }
-        
 
-        if(joypad()){
+        if(joypad() == J_START){
+            hide_all_sprites();
+            NR10_REG = 0x00; //Muta
+            NR11_REG = 0x00;
+            NR12_REG = 0x00;
+            NR13_REG = 0x00;
+            NR14_REG = 0x80;
+            sound_step = 0;
             
             limpar_tela(0);
             set_win_tiles(0, 0, 10, 1, end_mensage);
             move_win(60, 60);;
             break;
         }
+
+        switch(joypad()){
+            case J_UP:
+                student.y -= 2;
+                moveMainCaracter(&student, student.x, student.y);
+                break;
+            case J_DOWN:
+                student.y += 2;
+                moveMainCaracter(&student, student.x, student.y);
+                break;      
+        }
+
+        student2.x -= 5;
+        if(student2.x <= 0){
+            student2.x = 180;
+            student2.y = student.y;
+        }
+        moveSecondaryCaracter(&student2, student2.x, student2.y);
     }
 }
 
