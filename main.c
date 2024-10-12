@@ -17,20 +17,21 @@ struct MainCaracter student;
 struct SecondaryCaracter car;
 struct SecondaryCaracter student2;
 
-void hide_all_sprites() {
+void hide_all_sprites() { // função para esconder sprites da fase anterior
     for (a = 0; a < 40; a++) {
         move_sprite(a, 0, 0);
     }
 }
-
-void moveMainCaracter(struct MainCaracter *caracter, UINT8 x, UINT8 y){
+// função para movimentação de personagens principais
+void moveMainCaracter(struct MainCaracter *caracter, UINT8 x, UINT8 y){ 
     move_sprite(caracter->spritids[0], x, y);
     move_sprite(caracter->spritids[1], x + 8, y);
     move_sprite(caracter->spritids[2], x, y + 8);
     move_sprite(caracter->spritids[3], x + 8, y + 8);
-}
 
-void moveSecondaryCaracter(struct SecondaryCaracter *caracter, UINT8 x, UINT8 y){
+}
+// função para movimentação de personagens secundarios
+void moveSecondaryCaracter(struct SecondaryCaracter *caracter, UINT8 x, UINT8 y){ 
     move_sprite(caracter->spritids[0], x, y);
     move_sprite(caracter->spritids[1], x + 8, y);
     move_sprite(caracter->spritids[2], x, y + 8);
@@ -109,7 +110,7 @@ void setupStudent2(){
     moveSecondaryCaracter(&student2, student2.x, student2.y);
 }
 
-void performantdelay(UINT8 numloops)
+void performantdelay(UINT8 numloops) // função para delay que não utiliza muita memória do emulador
 {
     UINT8 ii;
     for (ii = 0; ii < numloops; ii++)
@@ -119,7 +120,7 @@ void performantdelay(UINT8 numloops)
 }
 
 
-// Função que processa uma nota do som por vez
+// Play1 - Missão impossível
 void play1_first_part() {
     if (delay_counter > 0) {
         delay_counter--;
@@ -365,6 +366,7 @@ void play1_second_part() {
     }
 }
 
+// PLay2 - Música de abertura de Game of Thrones
 void play2_first_part() {
     if (delay_counter > 0) {
         delay_counter--;
@@ -376,8 +378,8 @@ void play2_first_part() {
             NR10_REG = 0x00; // Sol3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x87;
-            NR14_REG = 0x81;
+            NR13_REG = 0xC5;
+            NR14_REG = 0x80;
             delay_counter = 4;
             sound_step++;
             break;
@@ -386,8 +388,8 @@ void play2_first_part() {
             NR10_REG = 0x00; // Do3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x05;
-            NR14_REG = 0x81;
+            NR13_REG = 0x84;
+            NR14_REG = 0x80;
             delay_counter = 4;
             sound_step++;
             break;
@@ -396,8 +398,8 @@ void play2_first_part() {
             NR10_REG = 0x00; // Re# 3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x37;
-            NR14_REG = 0x81;
+            NR13_REG = 0x9D;
+            NR14_REG = 0x80;
             delay_counter = 2;
             sound_step++;
             break;
@@ -406,8 +408,8 @@ void play2_first_part() {
             NR10_REG = 0x00; // Fa3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x5D;
-            NR14_REG = 0x81;
+            NR13_REG = 0xB0;
+            NR14_REG = 0x80;
             delay_counter = 2;
             sound_step = 0;
             if(i == 3){
@@ -430,8 +432,8 @@ void play2_second_part() {
             NR10_REG = 0x00; // Sol3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x87;
-            NR14_REG = 0x81;
+            NR13_REG = 0xC5;
+            NR14_REG = 0x80;
             delay_counter = 4;
             sound_step++;
             break;
@@ -440,8 +442,8 @@ void play2_second_part() {
             NR10_REG = 0x00; // Do3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x05;
-            NR14_REG = 0x81;
+            NR13_REG = 0x84;
+            NR14_REG = 0x80;
             delay_counter = 4;
             sound_step++;
             break;
@@ -450,8 +452,8 @@ void play2_second_part() {
             NR10_REG = 0x00; // Mi3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x49;
-            NR14_REG = 0x81;
+            NR13_REG = 0xA6;
+            NR14_REG = 0x80;
             delay_counter = 2;
             sound_step++;
             break;
@@ -460,8 +462,8 @@ void play2_second_part() {
             NR10_REG = 0x00; // Fa3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x5D;
-            NR14_REG = 0x81;
+            NR13_REG = 0xB0;
+            NR14_REG = 0x80;
             delay_counter = 2;
             sound_step = 0;
             if(j == 3){
@@ -483,8 +485,8 @@ void play2_thirt_part() {
             NR10_REG = 0x00; // Sol3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x87;
-            NR14_REG = 0x81;
+            NR13_REG = 0xC5;
+            NR14_REG = 0x80;
             delay_counter = 12;
             sound_step++;
             break;
@@ -493,8 +495,8 @@ void play2_thirt_part() {
             NR10_REG = 0x00; // Do3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x05;
-            NR14_REG = 0x81;
+            NR13_REG = 0x84;
+            NR14_REG = 0x80;
             delay_counter = 12;
             sound_step++;
             break;
@@ -503,8 +505,8 @@ void play2_thirt_part() {
             NR10_REG = 0x00; // Re# 3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x37;
-            NR14_REG = 0x81;
+            NR13_REG = 0x9D;
+            NR14_REG = 0x80;
             delay_counter = 2;
             sound_step++;
             break;
@@ -513,8 +515,8 @@ void play2_thirt_part() {
             NR10_REG = 0x00; // Fa3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x5D;
-            NR14_REG = 0x81;
+            NR13_REG = 0xB0;
+            NR14_REG = 0x80;
             delay_counter = 2;
             sound_step++;
             break;
@@ -523,8 +525,8 @@ void play2_thirt_part() {
             NR10_REG = 0x00; // Sol3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x87;
-            NR14_REG = 0x81;
+            NR13_REG = 0xC5;
+            NR14_REG = 0x80;
             delay_counter = 8;
             sound_step++;
             break;
@@ -533,8 +535,8 @@ void play2_thirt_part() {
             NR10_REG = 0x00; // Do3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x05;
-            NR14_REG = 0x81;
+            NR13_REG = 0x84;
+            NR14_REG = 0x80;
             delay_counter = 8;
             sound_step++;
             break;
@@ -543,8 +545,8 @@ void play2_thirt_part() {
             NR10_REG = 0x00; // Re# 3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x37;
-            NR14_REG = 0x81;
+            NR13_REG = 0x9D;
+            NR14_REG = 0x20;
             delay_counter = 2;
             sound_step++;
             break;
@@ -553,8 +555,8 @@ void play2_thirt_part() {
             NR10_REG = 0x00; // Fa3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x5D;
-            NR14_REG = 0x81;
+            NR13_REG = 0xB0;
+            NR14_REG = 0x80;
             delay_counter = 2;
             sound_step = 0;
             tocou = 1;
@@ -574,8 +576,8 @@ void play2_fourth_part() {
             NR10_REG = 0x00; // Re3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x25;
-            NR14_REG = 0x81;
+            NR13_REG = 0x94;
+            NR14_REG = 0x80;
             delay_counter = 4;
             sound_step++;
             break;
@@ -584,7 +586,7 @@ void play2_fourth_part() {
             NR10_REG = 0x00; // Sol2
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0xC3;
+            NR13_REG = 0x63;
             NR14_REG = 0x80;
             delay_counter = 4;
             sound_step++;
@@ -594,7 +596,7 @@ void play2_fourth_part() {
             NR10_REG = 0x00; // La# 2
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0xE9;
+            NR13_REG = 0x75;
             NR14_REG = 0x80;
             delay_counter = 2;
             sound_step++;
@@ -604,8 +606,8 @@ void play2_fourth_part() {
             NR10_REG = 0x00; // Do3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x05;
-            NR14_REG = 0x81;
+            NR13_REG = 0x84;
+            NR14_REG = 0x80;
             delay_counter = 2;
             sound_step = 0;
             if(k == 2){
@@ -628,8 +630,8 @@ void play2_fifth_part() {
             NR10_REG = 0x00; // Re3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x25;
-            NR14_REG = 0x81;
+            NR13_REG = 0x94;
+            NR14_REG = 0x80;
             delay_counter = 4;
             sound_step++;
             break;
@@ -638,7 +640,7 @@ void play2_fifth_part() {
             NR10_REG = 0x00; // Sol2
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0xC3;
+            NR13_REG = 0x63;
             NR14_REG = 0x80;
             delay_counter = 4;
             sound_step++;
@@ -648,8 +650,8 @@ void play2_fifth_part() {
             NR10_REG = 0x00; // Re3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x25;
-            NR14_REG = 0x81;
+            NR13_REG = 0x94;
+            NR14_REG = 0x80;
             delay_counter = 4;
             sound_step++;
             break;
@@ -667,8 +669,8 @@ void play2_fifth_part() {
             NR10_REG = 0x00; // Fa3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x5D;
-            NR14_REG = 0x81;
+            NR13_REG = 0xB0;
+            NR14_REG = 0x80;
             delay_counter = 12;
             sound_step++;
             break;
@@ -677,7 +679,7 @@ void play2_fifth_part() {
             NR10_REG = 0x00; // La# 2
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0xE9;
+            NR13_REG = 0x75;
             NR14_REG = 0x80;
             delay_counter = 12;
             sound_step++;
@@ -687,8 +689,8 @@ void play2_fifth_part() {
             NR10_REG = 0x00; // Re# 3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x37;
-            NR14_REG = 0x81;
+            NR13_REG = 0x9D;
+            NR14_REG = 0x80;
             delay_counter = 2;
             sound_step++;
             break;
@@ -697,8 +699,8 @@ void play2_fifth_part() {
             NR10_REG = 0x00; // Re3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x25;
-            NR14_REG = 0x81;
+            NR13_REG = 0x94;
+            NR14_REG = 0x80;
             delay_counter = 2;
             sound_step++;
             break;
@@ -707,8 +709,8 @@ void play2_fifth_part() {
             NR10_REG = 0x00; // Fa3
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0x5D;
-            NR14_REG = 0x81;
+            NR13_REG = 0xB0;
+            NR14_REG = 0x80;
             delay_counter = 8;
             sound_step++;
             break;
@@ -717,7 +719,7 @@ void play2_fifth_part() {
             NR10_REG = 0x00; // La# 2
             NR11_REG = 0x81;
             NR12_REG = 0x4B;
-            NR13_REG = 0xE9;
+            NR13_REG = 0x75;
             NR14_REG = 0x80;
             delay_counter = 12;
             sound_step++;
@@ -736,6 +738,7 @@ void play2_fifth_part() {
     }
 }
 
+// Função para limpar background de uma fase para outra
 void limpar_tela(UINT8 tile){
     for (y = 0; y < 18; y++) {
         for (x = 0; x < 32; x++) {
@@ -747,6 +750,7 @@ void limpar_tela(UINT8 tile){
 
 void tela_inicial(){
 
+    // Iniciando caracteres do Window
     font_init();
     font_set(font_load(font_spect));
     
@@ -790,7 +794,7 @@ void fase1(){
             play1_second_part();
         }
 
-        if(joypad() == J_START){
+        if(joypad() == J_START){// Mudando de fase pressionando start
             NR10_REG = 0x00; //Muta
             NR11_REG = 0x00;
             NR12_REG = 0x00;
@@ -823,7 +827,7 @@ void fase1(){
 }
 
 void fase2(){
-    // hide_all_sprites();
+    
     limpar_tela(0);
     set_bkg_data(97, 16, Fase2_Sprites);
     set_bkg_tiles(0, 0, 32, 18, Fase2_BackGround);
@@ -858,7 +862,7 @@ void fase2(){
             play2_fifth_part();
         }
 
-        if(joypad() == J_START){
+        if(joypad() == J_START){ // Termina o jogo pressionando start
             hide_all_sprites();
             NR10_REG = 0x00; //Muta
             NR11_REG = 0x00;
